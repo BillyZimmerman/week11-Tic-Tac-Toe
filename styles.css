@@ -1,0 +1,172 @@
+h1 {
+    text-align: center;
+    color: rgb(11, 1, 97);
+    font-family: 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif;
+    font-size: 350%;
+    margin-top: 20px;
+}
+  
+  /* SELECTING EVERYTHING */
+*, *::after, *::before {
+  box-sizing: border-box;
+}
+
+:root {
+        /* SETTING THE CELL WIDTH/HEIGHT AND SIZE */
+  --cell-size: 200px;
+        /* CREATING THE X'S AND O'S TO BE SMALLER THAN THE CELL SIZE*/
+  --mark-size: calc(var(--cell-size) * .9);
+}
+
+    /* REMOVING MARGINS */
+body {
+  margin: 0;
+}
+
+    /* SIZING AND CENTERING BOARD CONTENT */
+.board {
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  justify-content: center;
+  align-content: center;
+  /* CENTERING THE X'S AND O'S */
+  justify-items: center;
+  align-items: center;
+    /* CREATING 3 DIFFERENT COLUMNS FOR THE BOARD */
+  grid-template-columns: repeat(3, auto)
+}
+
+.cell {
+  width: var(--cell-size);
+  height: var(--cell-size);
+  border: 1px solid rgb(11, 1, 97);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  /* CREATING THE POINTER CURSER */
+  cursor: pointer;
+}
+
+/* REMOVING THE BOARDER TOP */
+.cell:first-child,
+.cell:nth-child(2),
+.cell:nth-child(3) {
+  border-top: none;
+}
+/* REMOVING THE LEFT BOARDER */
+.cell:nth-child(3n + 1) {
+  border-left: none;
+}
+/* REMOVING THE RIGHT BOARDER */
+.cell:nth-child(3n + 3) {
+  border-right: none;
+}
+/* REMOVING THE BOTTOM BOARDER */
+.cell:last-child,
+.cell:nth-child(8),
+.cell:nth-child(7) {
+  border-bottom: none;
+}
+
+    /* CREATING THE X STYLE PT1 */
+.cell.x,
+.cell.circle {
+    /* REMOVES THE POINTER CURSOR ELEMENT TO A 'NOT ALLOWED' CURSOR ON CELLS THAT HAVE AN X OR O  */
+  cursor: not-allowed;
+}
+    /* CREATING THE BLACK TEXT ON CELLS THAT HAVE A O OR X */
+.cell.x::before,
+.cell.x::after,
+.cell.circle::before {
+  background-color: rgb(11, 1, 97);
+}
+    /* CREATING THE GREY HOVER OVER FOR CELLS THAT DO NOT HAVE A O OR X */
+.board.x .cell:not(.x):not(.circle):hover::before,
+.board.x .cell:not(.x):not(.circle):hover::after,
+.board.circle .cell:not(.x):not(.circle):hover::before {
+  background-color: rgb(183, 189, 235);
+}
+
+.cell.x::before,
+.cell.x::after,
+.board.x .cell:not(.x):not(.circle):hover::before,
+.board.x .cell:not(.x):not(.circle):hover::after {
+  content: '';
+  position: absolute;
+  width: calc(var(--mark-size) * .15);
+  height: var(--mark-size);
+}
+
+.cell.x::before,
+.board.x .cell:not(.x):not(.circle):hover::before {
+  transform: rotate(45deg);
+}
+
+.cell.x::after,
+.board.x .cell:not(.x):not(.circle):hover::after {
+  transform: rotate(-45deg);
+}
+        /* CREATING THE CIRCLE */
+.cell.circle::before,
+.cell.circle::after,
+    /* APPLYING THE HOVER EFFECT ONLY IF THE USER IS ON A CELL THAT IS NOT USED */
+.board.circle .cell:not(.x):not(.circle):hover::before,
+.board.circle .cell:not(.x):not(.circle):hover::after {
+  content: '';
+  position: absolute;
+  /* CONVERTS THE SQUARE TO A CIRCLE */
+  border-radius: 50%;
+}
+
+.cell.circle::before,
+.board.circle .cell:not(.x):not(.circle):hover::before {
+  width: var(--mark-size);
+  height: var(--mark-size);
+}
+
+.cell.circle::after,
+.board.circle .cell:not(.x):not(.circle):hover::after {
+  width: calc(var(--mark-size) * .7);
+  height: calc(var(--mark-size) * .7);
+  background-color: white;
+}
+/* POSITIONING THE MESSAGE TO ALWAYS BE CENTERED */
+.winning-message {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, .9);
+  justify-content: center;
+  align-items: center;
+  color: rgb(183, 189, 235);
+  font-size: 5rem;
+  /* STACKING 'WINS' AND 'RESTART' FOR A BETTER LOOK*/
+  flex-direction: column;
+}
+
+.winning-message button {
+  font-size: 3rem;
+  background-color: rgb(183, 189, 235);
+  border: 1px solid rgb(11, 1, 97);
+  padding: .25em .5em;
+  cursor: pointer;
+}
+
+
+
+
+.winning-message button:hover {
+    /* INVERTING THE SCREEN ONCE THE ROUND IS OVER */
+  background-color:rgb(11, 1, 97);
+  color: rgb(183, 189, 235);
+  border-color: rgb(183, 189, 235);
+}
+
+.winning-message.show {
+  display: flex;
+}
